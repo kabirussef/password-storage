@@ -29,6 +29,26 @@ def menu():
     print("*******************************")
 
 
+def get_password(service):
+    pass
+
+
+def insert_password(service, username, password):
+    cursor.execute(f'''
+        INSERT INTO users (service, username, password)
+        VALUES ('{service}, '{username}', '{password}')
+    ''')
+    conn.commit()
+
+
+def show_services():
+    cursor.execute('''
+        SELECT service FROM users;
+    ''')
+    for service in cursor.fetchall():
+        print(service)
+
+
 while True:
     menu()
     op = input("O que deseja fazer?")
@@ -39,20 +59,14 @@ while True:
     if op == 's':
         break
 
+    if op == 'i':
+        service = input('Qual o nome do serviço?')
+        username = input('Qual o nome do usuário?')
+        password = input('Qual a senha?')
+        insert_password(service, username, password)
 
-def get_password(service):
-    pass
+    
+    if op == 'l':
+        show_services()
 
-def insert_password(service, username, password):
-    cursor.execute(f'''
-        INSERT INTO users (service, username, password)
-        VALUES ('{service}, '{username}', '{password}')
-    ''')
-    conn.commit()
-
-def show_password():
-    cursor.execute('''
-        SELECT service FROM users;
-    ''')
-    for service in cursor.fetchall():
-        print(service)
+conn.close()
